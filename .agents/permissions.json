@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "deny": [
+      "read_file(stammdaten/personendaten.json)",
+      "write_file(stammdaten/personendaten.json)",
+      "edit_file(stammdaten/personendaten.json)"
+    ]
+  }
+}

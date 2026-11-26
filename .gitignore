@@ -1,0 +1,22 @@
+# Sensible Personendaten niemals ins Repository laden
+stammdaten/personendaten.json
+stammdaten/bewerbungsfoto.*
+stammdaten/unterschrift.*
+stammdaten/anlagen/
+stammdaten/anlagen_archiv/
+stammdaten/*.jpg
+stammdaten/*.jpeg
+stammdaten/*.png
+
+# Lokale Build-Ausgaben, Backups und fertige Dokumente ausschließen
+**/output/
+backups/
+*.pdf
+*.docx
+
+# System- und Python-Dateien
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+.venv/
