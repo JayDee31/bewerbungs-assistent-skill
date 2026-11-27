@@ -39,9 +39,14 @@ Ein universeller, datenschutzorientierter Workflow-Assistent für Bewerbungen. S
    - **Persistentes Fakten-Gedächtnis:** Schreibe jede vom Nutzer geklärte oder korrigierte Tatsache sofort verbindlich in `karriere-profil/faktenbasis.md` (und passe bei Bedarf `master-cv.md` / `skills-matrix.md` an), damit derselbe Punkt niemals erneut erfragt oder falsch dargestellt wird.
    - Schlage dem Nutzer vor dem Verfassen des Anschreibens für jeden geforderten Punkt der Vakanz konkrete, belegbare Inhalte vor und stimme diese interaktiv mit ihm ab, bevor sie übernommen werden.
    - Stelle zu fehlenden Muss-/Kann-Kriterien oder Rahmenbedingungen (Eintrittsdatum, Gehaltswunsch, Arbeitszeitmodell) gezielte Rückfragen (max. 3 bis 5 pro Runde).
-6. **Modell- & Token-Effizienz:**
-   - Nutze bei delegierten Subagenten-Aufgaben (z. B. Datei-Checks, Web-Recherchen nach Unternehmensdaten, Vorprüfungen) konsequent sparsame Modellstufen (`flash` oder `flash_lite`) statt `pro` oder `inherit`, sofern keine komplexe Strategie- oder Textarbeit erforderlich ist.
-   - Da das Hauptmodell des Chats nicht automatisch umgeschaltet werden kann, gib dem Nutzer vor besonders umfangreichen Analyse-/Formulierungsphasen (z. B. Wechsel zu `Orchestrator (Gemini 4 Neon High)` oder `Gemini 4 Neon` bzw. zurück auf `Gemini 4 Hydrogen` für Routine-Edits und Builds) einen kurzen, konkreten Modell-Hinweis zum Credit-Sparen.
+6. **Modell- & Token-Effizienz (Pflicht-Gate vor Ausführung):**
+   - **Vorab-Modell-Empfehlung:** Empfehle dem Nutzer **vor** dem Ausführen neuer Aufgaben — sowie am Ende jeder Antwort für den **nächsten** Prompt — verbindlich das token-sparsamste passende Modell, damit er es *vor* dem Absenden im Dropdown wählen kann (ein bereits gesendeter Turn läuft technisch immer auf dem aktuell ausgewählten Modell).
+   - **Stopp-Regel bei falscher Modellstufe:** Ist ein deutlich teureres Modell als nötig aktiv (z. B. `Gemini 4 Carbon`, `Claude Opus 5.5`, `Orchestrator`) oder steht ein Phasenwechsel an, führe den Auftrag **noch nicht** aus, sondern gib zuerst nur den Modell-Wechselhinweis und warte auf die Umstellung des Nutzers.
+   - **Modell-Leitfaden (Antigravity Dropdown):**
+     - `Gemini 4 Hydrogen` (**Low/Medium** für einfache Rückfragen, Dateichecks, Builds, Git-Sync; **High** für normale Skript-/Skill-Edits) → **Standard zum Token-Sparen**.
+     - `Gemini 4 Neon (Medium)` → nur für tiefere Vakanz-/Quellenanalysen, feine Anschreiben-Formulierungen oder anspruchsvolle Interview-Vorbereitung.
+     - `Gemini 4 Carbon (Medium)` / `Orchestrator (Gemini 4 Neon High)` → nur bei sehr komplexen Gesamtumbauten.
+   - **Subagenten:** Nutze bei delegierten Hintergrund-Aufgaben konsequent `flash` oder `flash_lite` statt `pro` oder `inherit`.
 7. **Laufende ATS-Konformitätsprüfung (Pflicht nach jeder Änderung):**
    - Prüfe **nach jeder inhaltlichen, strukturellen oder Layout-Änderung** an Lebenslauf, Anschreiben oder `scripts/build_bewerbung.py` sofort auf ATS-Konformität: durchsuchbarer Textlayer, keine fehlerhaften Zeichen (`U+FFFD`), korrekte Lesereihenfolge von oben nach unten, einheitliches Datumsformat `MM/JJJJ`, Standard-Aufzählungszeichen (`•`), Einspaltigkeit des Textkörpers sowie Keyword-Abgleich gegen die Vakanz.
    - Behebe erkannte ATS-Abweichungen sofort und exportiere die Dokumente erneut, bevor das Ergebnis als fertig gemeldet wird.
